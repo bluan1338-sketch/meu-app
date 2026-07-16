@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FutX - Canais Ao Vivo</title>
     
-    <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     
     <style>
@@ -215,7 +214,6 @@
 </head>
 <body>
 
-    <!-- Tela de Bloqueio do Cliente -->
     <div id="login-screen">
         <div class="login-box">
             <svg class="logo-icon" viewBox="0 0 24 24" style="margin-bottom: 15px; width: 60px; height: 60px;">
@@ -228,7 +226,6 @@
         </div>
     </div>
 
-    <!-- Logo FutX -->
     <div class="logo-container">
         <svg class="logo-icon" viewBox="0 0 24 24">
             <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2 10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
@@ -248,7 +245,6 @@
         </video>
     </div>
 
-    <!-- Filtros de Categorias -->
     <div class="filter-container">
         <button class="filter-btn active" onclick="filterChannels('all', this)">Todos</button>
         <button class="filter-btn" onclick="filterChannels('premiere', this)">Premiere</button>
@@ -256,9 +252,7 @@
         <button class="filter-btn" onclick="filterChannels('espn', this)">ESPN</button>
     </div>
 
-    <!-- Grade de Canais -->
     <div class="channels-grid">
-        <!-- PREMIERE -->
         <div class="channel-card active" data-category="premiere" onclick="changeChannel('premiere_clubes', this)">
             <img class="channel-logo" src="https://i.ibb.co/ZRkkfJNj/premiereclubes.png" alt="Premiere Clubes 4K">
             <div class="channel-name">Premiere Clubes 4K</div>
@@ -284,7 +278,6 @@
             <div class="channel-name">Premiere 8 FHD</div>
         </div>
 
-        <!-- SPORTV -->
         <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_1', this)">
             <img class="channel-logo" src="https://i.ibb.co/JgkTbZd/sportv.png" alt="SporTV HD">
             <div class="channel-name">SporTV HD</div>
@@ -298,7 +291,6 @@
             <div class="channel-name">SporTV 3 HD</div>
         </div>
 
-        <!-- ESPN -->
         <div class="channel-card" data-category="espn" onclick="changeChannel('espn_1', this)">
             <img class="channel-logo" src="https://i.ibb.co/RGCMyMQ6/espn.png" alt="ESPN 1 HD">
             <div class="channel-name">ESPN 1 HD</div>
@@ -321,7 +313,6 @@
         </div>
     </div>
 
-    <!-- Scripts do VideoJS e Lógica de Validação -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
         const CANAIS_DATABASE = {
@@ -349,6 +340,9 @@
         let tentativasReconexao = 0;
         const MAX_TENTATIVAS = 3;
 
+        // COLOQUE O SEU LINK RAW DO PASTEBIN AQUI EMBAIXO:
+        const URL_BLACK_LIST = "SUA_URL_DO_PASTEBIN_AQUI"; 
+
         // LEITURA E INICIALIZAÇÃO
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -365,8 +359,8 @@
             }
         };
 
-        // VALIDADOR INTEGRADO E CORRIGIDO
-        function processarToken(tokenInput, ehAutomatico = false) {
+        // VALIDADOR COM VERIFICAÇÃO DE BLOQUEIO ONLINE
+        async function processarToken(tokenInput, ehAutomatico = false) {
             const feedback = document.getElementById('login-feedback');
 
             if (!tokenInput || !tokenInput.startsWith("FTX-")) {
@@ -375,13 +369,8 @@
             }
 
             try {
-                // Remove prefixo e limpa espaços extras
                 let hash = tokenInput.replace("FTX-", "").trim();
-                
-                // Trata caracteres especiais que o navegador ou app possam ter modificado na URL
                 hash = decodeURIComponent(hash); 
-                
-                // Descriptografa com segurança (Base64)
                 const decodificado = atob(hash); 
                 
                 const partes = decodificado.split("|");
@@ -390,19 +379,36 @@
                     return;
                 }
 
-                const email = partes[0];
+                const email = partes[0].trim().toLowerCase();
                 const dataExpiraStr = partes[1]; // Ex: 2026-08-15
 
-                // Evita distorções de fuso horário separando ano, mês e dia
+                // --- SISTEMA DE BLOQUEIO ONLINE ---
+                feedback.innerText = "Verificando lista de bloqueios...";
+                try {
+                    const resposta = await fetch(URL_BLACK_LIST);
+                    if (resposta.ok) {
+                        const textoBlacklist = await resposta.text();
+                        // Separa a lista por linhas e limpa espaços
+                        const blacklist = textoBlacklist.split("\n").map(e => e.trim().toLowerCase());
+                        
+                        // Se o e-mail do cliente estiver na lista negra...
+                        if (blacklist.includes(email)) {
+                            feedback.innerText = "Este acesso foi revogado pelo administrador.";
+                            localStorage.removeItem('futx_token'); // Apaga o acesso salvo no dispositivo
+                            return; // Encerra o carregamento aqui
+                        }
+                    }
+                } catch (erroApi) {
+                    console.warn("Falha ao consultar blacklist online. Procedendo de forma offline.");
+                }
+                // ----------------------------------
+
                 const [ano, mes, dia] = dataExpiraStr.split("-");
                 const expiraEm = new Date(ano, parseInt(mes) - 1, dia, 23, 59, 59, 999);
                 const agora = new Date();
 
                 if (agora <= expiraEm) {
-                    // Guarda o token no navegador para o próximo acesso automático
                     localStorage.setItem('futx_token', tokenInput);
-                    
-                    // Libera o painel
                     document.getElementById('login-screen').style.display = 'none';
                     recarregarPlayer(CANAIS_DATABASE[canalAtualKey].principal);
                 } else {
@@ -410,7 +416,7 @@
                     localStorage.removeItem('futx_token');
                 }
             } catch (e) {
-                console.error("Erro na decodificação do Token: ", e);
+                console.error("Erro na validação: ", e);
                 feedback.innerText = "Link de acesso corrompido ou mal formatado.";
             }
         }
