@@ -3,36 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutX - Canais Ao Vivo</title>
+    <title>FutX Premium - Canais Ao Vivo</title>
     
+    <!-- Google Fonts para um design super moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     
     <style>
+        :root {
+            --bg-principal: #09090b;
+            --bg-card: #14141b;
+            --bg-card-hover: #1d1d26;
+            --cor-primaria: #00ff88;
+            --cor-primaria-glowing: rgba(0, 255, 136, 0.35);
+            --cor-texto: #f4f4f5;
+            --cor-texto-secundario: #a1a1aa;
+            --borda: rgba(255, 255, 255, 0.06);
+            --borda-hover: rgba(0, 255, 136, 0.5);
+            --fonte: 'Plus Jakarta Sans', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--fonte);
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #121212;
-            color: #ffffff;
+            background-color: var(--bg-principal);
+            color: var(--cor-texto);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 15px 40px 15px;
+            overflow-x: hidden;
         }
 
-        /* Tela de Bloqueio (Acesso Negado ou Sem Token) */
+        /* --- TELA DE ACESSO (PREMIUM & ELEGANTE) --- */
         #login-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #121212;
+            background: radial-gradient(circle at center, #111118 0%, #050508 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -41,202 +62,400 @@
         }
 
         .login-box {
-            background: #1e1e1e;
-            padding: 40px;
-            border-radius: 12px;
-            border: 2px solid #00ff88;
+            background: rgba(20, 20, 27, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 45px 35px;
+            border-radius: 24px;
+            border: 1px solid var(--borda-hover);
             width: 90%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px var(--cor-primaria-glowing);
+            transform: translateY(0);
+            transition: all 0.3s ease;
         }
 
-        /* Container da Logo FutX */
+        .login-box .logo-icon {
+            width: 70px;
+            height: 70px;
+            fill: var(--cor-primaria);
+            filter: drop-shadow(0 0 15px var(--cor-primaria-glowing));
+            margin-bottom: 20px;
+        }
+
+        .login-box h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .loader {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--cor-primaria);
+            display: inline-block;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- HEADER / LOGO PRINCIPAL --- */
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            text-decoration: none;
+            gap: 10px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+            user-select: none;
         }
 
         .logo-icon {
-            width: 45px;
-            height: 45px;
-            fill: #00ff88;
-            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
+            width: 40px;
+            height: 40px;
+            fill: var(--cor-primaria);
+            filter: drop-shadow(0 0 10px var(--cor-primaria-glowing));
         }
 
         .logo-text {
-            font-size: 2.2rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #a3a3a3 50%, #00ff88 100%);
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
-            display: flex;
-            align-items: center;
         }
 
         .logo-text span {
-            color: #00ff88;
-            -webkit-text-fill-color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
+            color: var(--cor-primaria);
+            -webkit-text-fill-color: var(--cor-primaria);
+            text-shadow: 0 0 15px var(--cor-primaria-glowing);
+            font-weight: 900;
         }
 
-        /* Container do Player */
-        .player-container {
+        /* --- CONTAINER DO PLAYER (CINEMÁTICO) --- */
+        .player-wrapper {
             width: 100%;
-            max-width: 800px;
-            background-color: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            border: 2px solid #222;
+            max-width: 900px;
             position: relative;
+            background-color: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--borda);
+            transition: border-color 0.3s ease;
+        }
+
+        .player-wrapper:hover {
+            border-color: rgba(0, 255, 136, 0.2);
         }
 
         .video-js {
             width: 100% !important;
             height: auto;
             aspect-ratio: 16/9;
+            background-color: #000;
         }
 
-        /* Mensagem de Erro Personalizada */
+        /* Skin do Video.js Customizada */
+        .video-js .vjs-big-play-button {
+            background-color: rgba(20, 20, 27, 0.8) !important;
+            border: 2px solid var(--cor-primaria) !important;
+            color: var(--cor-primaria) !important;
+            width: 70px !important;
+            height: 70px !important;
+            border-radius: 50% !important;
+            line-height: 66px !important;
+            margin-top: -35px !important;
+            margin-left: -35px !important;
+            box-shadow: 0 0 20px var(--cor-primaria-glowing) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .video-js:hover .vjs-big-play-button {
+            transform: scale(1.1);
+            background-color: var(--cor-primaria) !important;
+            color: #000 !important;
+        }
+
+        .video-js .vjs-play-progress {
+            background-color: var(--cor-primaria) !important;
+        }
+
+        /* Mensagem de Erro do Player */
         .player-error-msg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(10, 10, 12, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #ff4a4a;
-            font-weight: bold;
             z-index: 10;
             display: none;
             text-align: center;
             padding: 20px;
         }
 
-        /* Filtros de Categoria */
+        .player-error-msg p {
+            color: #ef4444;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        /* --- FILTROS DE CATEGORIAS (TABS ELEGANTES) --- */
         .filter-container {
             display: flex;
-            gap: 10px;
-            margin-top: 25px;
+            gap: 8px;
+            margin: 30px 0 15px 0;
             width: 100%;
-            max-width: 800px;
-            justify-content: center;
-            flex-wrap: wrap;
+            max-width: 900px;
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .filter-container::-webkit-scrollbar {
+            display: none; /* Safari e Chrome */
         }
 
         .filter-btn {
-            background-color: #1e1e1e;
-            color: #ffffff;
-            border: 2px solid #333;
-            padding: 10px 20px;
-            border-radius: 25px;
+            background-color: var(--bg-card);
+            color: var(--cor-texto-secundario);
+            border: 1px solid var(--borda);
+            padding: 10px 22px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
         }
 
-        .filter-btn:hover, .filter-btn.active {
-            border-color: #00ff88;
-            background-color: #1a3a2a;
-            color: #00ff88;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        .filter-btn:hover {
+            color: var(--cor-texto);
+            border-color: rgba(255, 255, 255, 0.15);
+            background-color: var(--bg-card-hover);
         }
 
-        /* Grade de Canais */
+        .filter-btn.active {
+            border-color: var(--cor-primaria);
+            background-color: rgba(0, 255, 136, 0.08);
+            color: var(--cor-primaria);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.05);
+        }
+
+        /* --- SEÇÃO DO AGORA PASSANDO --- */
+        .now-playing-container {
+            width: 100%;
+            max-width: 900px;
+            background: linear-gradient(90deg, rgba(20,20,27,1) 0%, rgba(10,10,12,0.5) 100%);
+            padding: 15px 20px;
+            border-radius: 16px;
+            border-left: 4px solid var(--cor-primaria);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid var(--borda);
+            border-right: 1px solid var(--borda);
+            border-bottom: 1px solid var(--borda);
+        }
+
+        .now-playing-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--cor-primaria);
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+            box-shadow: 0 0 10px var(--cor-primaria);
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); }
+        }
+
+        .now-playing-title {
+            font-size: 0.9rem;
+            color: var(--cor-texto-secundario);
+            font-weight: 500;
+        }
+
+        .now-playing-name {
+            font-size: 1.05rem;
+            color: var(--cor-texto);
+            font-weight: 700;
+        }
+
+        /* --- GRADE DE CANAIS (CARDS ESTILO NETFLIX) --- */
         .channels-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
             width: 100%;
-            max-width: 800px;
-            margin-top: 20px;
+            max-width: 900px;
         }
 
         /* Card do Canal */
         .channel-card {
-            background-color: #1e1e1e;
-            border: 2px solid #333;
-            border-radius: 10px;
-            padding: 15px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--borda);
+            border-radius: 18px;
+            padding: 20px 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .channel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cor-primaria), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .channel-card:hover {
-            transform: translateY(-4px);
-            border-color: #00ff88;
-            background-color: #252525;
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.15);
+            transform: translateY(-5px);
+            background-color: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .channel-card:hover::before {
+            transform: scaleX(1);
         }
 
         .channel-card.active {
-            border-color: #00ff88;
-            background-color: #1a3a2a;
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.1);
+            background: linear-gradient(135deg, rgba(20, 20, 27, 0.9) 0%, rgba(0, 255, 136, 0.05) 100%);
+            border-color: var(--cor-primaria);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.1);
+        }
+
+        .channel-card.active::before {
+            transform: scaleX(1);
+        }
+
+        /* Badge de Qualidade (4K, FHD) */
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--cor-texto-secundario);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--borda);
+            text-transform: uppercase;
+        }
+
+        .channel-card.active .badge {
+            background-color: rgba(0, 255, 136, 0.15);
+            color: var(--cor-primaria);
+            border-color: rgba(0, 255, 136, 0.3);
         }
 
         .channel-logo {
-            width: 80px;
-            height: 80px;
+            width: 75px;
+            height: 75px;
             object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            background-color: #000;
-            padding: 5px;
-            border: 1px solid #222;
+            margin-bottom: 15px;
+            margin-top: 5px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .channel-card:hover .channel-logo {
+            transform: scale(1.08);
         }
 
         .channel-name {
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--cor-texto);
+            line-height: 1.2;
+        }
+
+        /* Responsividade para Celulares Pequenos */
+        @media (max-width: 480px) {
+            .channels-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .channel-card {
+                padding: 15px 10px;
+            }
+            .channel-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .logo-text {
+                font-size: 1.9rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Tela de Bloqueio Elegante -->
     <div id="login-screen">
         <div class="login-box">
-            <svg class="logo-icon" viewBox="0 0 24 24" style="margin-bottom: 15px; width: 60px; height: 60px;">
-                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2 10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
+            <svg class="logo-icon" viewBox="0 0 24 24">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2,10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
             </svg>
-            <h2 style="margin-bottom: 10px; color: #fff;">FutX Premium</h2>
-            <p id="login-feedback" style="font-size: 0.95rem; color: #ff4a4a; font-weight: bold; margin-top: 15px;">
-                Verificando credenciais de acesso...
+            <h2>FutX Premium</h2>
+            <p style="font-size: 0.9rem; color: var(--cor-texto-secundario); margin-bottom: 25px;">Sua entrada para o melhor do esporte</p>
+            <div class="loader"></div>
+            <p id="login-feedback" style="font-size: 0.95rem; color: var(--cor-primaria); font-weight: 600;">
+                Sincronizando canais e acessos...
             </p>
         </div>
     </div>
 
+    <!-- Header / Logo Principal -->
     <div class="logo-container">
         <svg class="logo-icon" viewBox="0 0 24 24">
-            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2 10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2,10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
         </svg>
         <span class="logo-text">Fut<span>X</span></span>
     </div>
 
-    <div class="player-container">
+    <!-- Container Cinemático do Player -->
+    <div class="player-wrapper">
         <div id="error-screen" class="player-error-msg">
-            <p style="font-size: 1.2rem; margin-bottom: 10px;">⚠️ Canal Temporariamente Fora do Ar</p>
-            <p style="font-size: 0.9rem; color: #aaa;">Tente selecionar outro canal ou aguarde alguns instantes.</p>
+            <p>⚠️ Sinal Temporariamente Instável</p>
+            <span style="font-size: 0.85rem; color: var(--cor-texto-secundario); max-width: 300px;">Estamos tentando restabelecer a conexão. Você também pode tentar mudar de canal.</span>
         </div>
 
         <video id="live-player" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" data-setup='{}'>
@@ -245,74 +464,152 @@
         </video>
     </div>
 
+    <!-- Barra Dinâmica do Canal Atual -->
+    <div class="now-playing-container">
+        <div class="now-playing-info">
+            <div class="live-dot"></div>
+            <div>
+                <p class="now-playing-title">ASSISTINDO AGORA</p>
+                <p id="now-playing-name" class="now-playing-name">Premiere Clubes 4K</p>
+            </div>
+        </div>
+        <div class="badge" style="position:static; background-color: rgba(0, 255, 136, 0.1); color: var(--cor-primaria); border-color: rgba(0, 255, 136, 0.2);">Ao vivo</div>
+    </div>
+
+    <!-- Filtros de Categorias (Scroll Deslizante) -->
     <div class="filter-container">
-        <button class="filter-btn active" onclick="filterChannels('all', this)">Todos</button>
+        <button class="filter-btn active" onclick="filterChannels('all', this)">Todos os Canais</button>
         <button class="filter-btn" onclick="filterChannels('premiere', this)">Premiere</button>
         <button class="filter-btn" onclick="filterChannels('sportv', this)">SporTV</button>
         <button class="filter-btn" onclick="filterChannels('espn', this)">ESPN</button>
+        <button class="filter-btn" onclick="filterChannels('tnt', this)">TNT Sports</button>
+        <button class="filter-btn" onclick="filterChannels('prime', this)">Prime Video</button>
     </div>
 
+    <!-- Grade de Canais Elegante -->
     <div class="channels-grid">
-        <div class="channel-card active" data-category="premiere" onclick="changeChannel('premiere_clubes', this)">
+        <!-- PREMIERE -->
+        <div class="channel-card active" data-category="premiere" onclick="changeChannel('premiere_clubes', 'Premiere Clubes 4K', this)">
+            <span class="badge">4K Ultra</span>
             <img class="channel-logo" src="https://i.ibb.co/ZRkkfJNj/premiereclubes.png" alt="Premiere Clubes 4K">
-            <div class="channel-name">Premiere Clubes 4K</div>
+            <div class="channel-name">Premiere Clubes</div>
         </div>
-        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_2', this)">
+        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_2', 'Premiere 2 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/CQ0gFRj/pfc2.png" alt="Premiere 2 HD">
-            <div class="channel-name">Premiere 2 HD</div>
+            <div class="channel-name">Premiere 2</div>
         </div>
-        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_5', this)">
+        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_5', 'Premiere 5 FHD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/pwDkSGX/pfc5.png" alt="Premiere 5 FHD">
-            <div class="channel-name">Premiere 5 FHD</div>
+            <div class="channel-name">Premiere 5</div>
         </div>
-        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_6', this)">
+        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_6', 'Premiere 6 FHD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/fQMJ3Y5/pfc6.png" alt="Premiere 6 FHD">
-            <div class="channel-name">Premiere 6 FHD</div>
+            <div class="channel-name">Premiere 6</div>
         </div>
-        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_7', this)">
+        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_7', 'Premiere 7 FHD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/c865zPB/pfc7.png" alt="Premiere 7 FHD">
-            <div class="channel-name">Premiere 7 FHD</div>
+            <div class="channel-name">Premiere 7</div>
         </div>
-        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_8', this)">
+        <div class="channel-card" data-category="premiere" onclick="changeChannel('premiere_8', 'Premiere 8 FHD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/F52jGZb/pfc8.png" alt="Premiere 8 FHD">
-            <div class="channel-name">Premiere 8 FHD</div>
+            <div class="channel-name">Premiere 8</div>
         </div>
 
-        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_1', this)">
+        <!-- SPORTV -->
+        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_1', 'SporTV HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/JgkTbZd/sportv.png" alt="SporTV HD">
             <div class="channel-name">SporTV HD</div>
         </div>
-        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_2', this)">
+        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_2', 'SporTV 2 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/MkYYHQzT/sportv2.png" alt="SporTV 2 HD">
-            <div class="channel-name">SporTV 2 HD</div>
+            <div class="channel-name">SporTV 2</div>
         </div>
-        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_3', this)">
+        <div class="channel-card" data-category="sportv" onclick="changeChannel('sportv_3', 'SporTV 3 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/C5121SkN/sportv3.png" alt="SporTV 3 HD">
-            <div class="channel-name">SporTV 3 HD</div>
+            <div class="channel-name">SporTV 3</div>
         </div>
 
-        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_1', this)">
+        <!-- ESPN -->
+        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_1', 'ESPN 1 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/RGCMyMQ6/espn.png" alt="ESPN 1 HD">
-            <div class="channel-name">ESPN 1 HD</div>
+            <div class="channel-name">ESPN 1</div>
         </div>
-        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_2', this)">
+        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_2', 'ESPN 2 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/rGPghkMN/espn2.png" alt="ESPN 2 HD">
-            <div class="channel-name">ESPN 2 HD</div>
+            <div class="channel-name">ESPN 2</div>
         </div>
-        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_3', this)">
+        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_3', 'ESPN 3 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/5hJxqNHp/espn3.png" alt="ESPN 3 HD">
-            <div class="channel-name">ESPN 3 HD</div>
+            <div class="channel-name">ESPN 3</div>
         </div>
-        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_4', this)">
+        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_4', 'ESPN 4 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/vvDp3zY0/espn4.png" alt="ESPN 4 HD">
-            <div class="channel-name">ESPN 4 HD</div>
+            <div class="channel-name">ESPN 4</div>
         </div>
-        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_6', this)">
+        <div class="channel-card" data-category="espn" onclick="changeChannel('espn_6', 'ESPN 6 HD', this)">
+            <span class="badge">FHD</span>
             <img class="channel-logo" src="https://i.ibb.co/gb5Yfvjk/espn6.png" alt="ESPN 6 HD">
-            <div class="channel-name">ESPN 6 HD</div>
+            <div class="channel-name">ESPN 6</div>
+        </div>
+
+        <!-- TNT SPORTS -->
+        <div class="channel-card" data-category="tnt" onclick="changeChannel('tnt_fhd', 'TNT Sports FHD', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://imagizer.imageshack.com/v2/640x480q90/923/NAETrb.png" alt="TNT Sports FHD">
+            <div class="channel-name">TNT Sports FHD</div>
+        </div>
+        <div class="channel-card" data-category="tnt" onclick="changeChannel('tnt_hd', 'TNT Sports HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://imagizer.imageshack.com/v2/640x480q90/923/NAETrb.png" alt="TNT Sports HD">
+            <div class="channel-name">TNT Sports HD</div>
+        </div>
+
+        <!-- PRIME VIDEO -->
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_1', 'Amazon Prime 01', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Prime Video Amazon 01">
+            <div class="channel-name">Amazon Prime 01</div>
+        </div>
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_2', 'Amazon Prime 02', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Prime Video Amazon 02">
+            <div class="channel-name">Amazon Prime 02</div>
+        </div>
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_3', 'Amazon Prime 03', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Prime Video Amazon 03">
+            <div class="channel-name">Amazon Prime 03</div>
+        </div>
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_4', 'Amazon Prime 04', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Prime Video Amazon 04">
+            <div class="channel-name">Amazon Prime 04</div>
+        </div>
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_5', 'Amazon Prime 05', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Prime Video Amazon 05">
+            <div class="channel-name">Amazon Prime 05</div>
+        </div>
+        <div class="channel-card" data-category="prime" onclick="changeChannel('prime_6', 'Amazon Prime 06', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="AMAZON PRIME VIDEO 06">
+            <div class="channel-name">Amazon Prime 06</div>
         </div>
     </div>
 
+    <!-- Scripts do VideoJS e Lógica de Validação -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
         const CANAIS_DATABASE = {
@@ -322,14 +619,26 @@
             "premiere_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717640.m3u8", backup: "" },
             "premiere_7": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717637.m3u8", backup: "" },
             "premiere_8": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717633.m3u8?jw=1&auto_quality=0", backup: "" },
+            
             "sportv_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717824.m3u8", backup: "" },
             "sportv_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717820.m3u8", backup: "" },
             "sportv_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717813.m3u8", backup: "" },
+            
             "espn_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717311.m3u8?jw=1&auto_quality=0", backup: "" },
             "espn_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717308.m3u8?jw=1&auto_quality=0", backup: "" },
             "espn_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717305.m3u8?jw=1&auto_quality=0", backup: "" },
             "espn_4": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717301.m3u8?jw=1&auto_quality=0", backup: "" },
-            "espn_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717293.m3u8?jw=1&auto_quality=0", backup: "" }
+            "espn_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717293.m3u8?jw=1&auto_quality=0", backup: "" },
+
+            "tnt_fhd": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/8905752.m3u8?jw=1&auto_quality=0", backup: "" },
+            "tnt_hd": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/8905753.m3u8?jw=1&auto_quality=0", backup: "" },
+
+            "prime_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717667.m3u8?jw=1&auto_quality=0", backup: "" },
+            "prime_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717666.m3u8?jw=1&auto_quality=0", backup: "" },
+            "prime_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717665.m3u8?jw=1&auto_quality=0", backup: "" },
+            "prime_4": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717664.m3u8?jw=1&auto_quality=0", backup: "" },
+            "prime_5": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717663.m3u8?jw=1&auto_quality=0", backup: "" },
+            "prime_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7718146.m3u8?jw=1&auto_quality=0", backup: "" }
         };
 
         const player = videojs('live-player');
@@ -340,7 +649,7 @@
         let tentativasReconexao = 0;
         const MAX_TENTATIVAS = 3;
 
-        // O Teu Pastebin Oficial já integrado no proxy CORS de segurança
+        // O Seu Pastebin com bypass de CORS
         const URL_BLACK_LIST = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://pastebin.com/raw/rQjKVLKT"); 
 
         // LEITURA E INICIALIZAÇÃO
@@ -355,15 +664,19 @@
                 processarToken(tokenSalvo, true);
             } else {
                 const feedback = document.getElementById('login-feedback');
-                feedback.innerHTML = 'Acesso Restrito.<br><span style="font-size:0.85rem; color:#aaa; font-weight:normal;">Utilize o link premium exclusivo enviado pelo administrador para assistir.</span>';
+                document.querySelector('.loader').style.display = 'none';
+                feedback.style.color = '#ef4444';
+                feedback.innerHTML = 'Acesso Restrito.<br><span style="font-size:0.85rem; color:#a1a1aa; font-weight:normal; display:inline-block; margin-top:10px;">Utilize o link premium exclusivo enviado pelo administrador para assistir.</span>';
             }
         };
 
-        // VALIDADOR COM VERIFICAÇÃO DE BLOQUEIO ONLINE (CORS BYPASS ATIVO)
+        // VALIDADOR COM VERIFICAÇÃO ONLINE
         async function processarToken(tokenInput, ehAutomatico = false) {
             const feedback = document.getElementById('login-feedback');
 
             if (!tokenInput || !tokenInput.startsWith("FTX-")) {
+                document.querySelector('.loader').style.display = 'none';
+                feedback.style.color = '#ef4444';
                 feedback.innerText = "Link de acesso inválido.";
                 return;
             }
@@ -375,30 +688,32 @@
                 
                 const partes = decodificado.split("|");
                 if (partes.length < 2) {
+                    document.querySelector('.loader').style.display = 'none';
+                    feedback.style.color = '#ef4444';
                     feedback.innerText = "Formato de link inválido.";
                     return;
                 }
 
                 const email = partes[0].trim().toLowerCase();
-                const dataExpiraStr = partes[1]; // Ex: 2026-08-15
+                const dataExpiraStr = partes[1];
 
-                // --- SISTEMA DE BLOQUEIO ONLINE ---
-                feedback.innerText = "Verificando credenciais...";
+                // --- CONSULTA DA BLACKLIST ---
+                feedback.innerText = "Validando credenciais de segurança...";
                 try {
                     const resposta = await fetch(URL_BLACK_LIST);
                     if (resposta.ok) {
                         const dadosJson = await resposta.json();
-                        // allorigins devolve o conteúdo original dentro da propriedade 'contents'
                         const textoBlacklist = dadosJson.contents || "";
                         
-                        // Filtra linhas vazias e remove possíveis comentários
                         const blacklist = textoBlacklist.split("\n")
                             .map(linha => linha.trim().toLowerCase())
                             .filter(linha => linha.length > 0 && !linha.startsWith("#"));
                         
                         if (blacklist.includes(email)) {
+                            document.querySelector('.loader').style.display = 'none';
+                            feedback.style.color = '#ef4444';
                             feedback.innerText = "Este acesso foi revogado pelo administrador.";
-                            localStorage.removeItem('futx_token'); // Remove do celular se for banido
+                            localStorage.removeItem('futx_token');
                             return;
                         }
                     }
@@ -413,14 +728,23 @@
 
                 if (agora <= expiraEm) {
                     localStorage.setItem('futx_token', tokenInput);
-                    document.getElementById('login-screen').style.display = 'none';
+                    // Sucesso: fecha tela de login suavemente
+                    const loginScreen = document.getElementById('login-screen');
+                    loginScreen.style.opacity = '0';
+                    loginScreen.style.transition = 'opacity 0.4s ease';
+                    setTimeout(() => { loginScreen.style.display = 'none'; }, 400);
+                    
                     recarregarPlayer(CANAIS_DATABASE[canalAtualKey].principal);
                 } else {
+                    document.querySelector('.loader').style.display = 'none';
+                    feedback.style.color = '#ef4444';
                     feedback.innerText = "Este link premium expirou.";
                     localStorage.removeItem('futx_token');
                 }
             } catch (e) {
                 console.error("Erro na validação: ", e);
+                document.querySelector('.loader').style.display = 'none';
+                feedback.style.color = '#ef4444';
                 feedback.innerText = "Link de acesso corrompido ou mal formatado.";
             }
         }
@@ -451,13 +775,17 @@
             });
         }
 
-        function changeChannel(canalKey, cardElement) {
+        function changeChannel(canalKey, canalNomeCompleto, cardElement) {
             errorScreen.style.display = 'none';
             canalAtualKey = canalKey;
             usandoBackup = false;
             tentativasReconexao = 0;
             recarregarPlayer(CANAIS_DATABASE[canalKey].principal);
 
+            // Atualiza barra de exibição do canal atual
+            document.getElementById('now-playing-name').innerText = canalNomeCompleto;
+
+            // Altera visualmente os cards ativos
             document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
             cardElement.classList.add('active');
         }
