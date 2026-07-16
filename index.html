@@ -340,8 +340,8 @@
         let tentativasReconexao = 0;
         const MAX_TENTATIVAS = 3;
 
-        // LINK OFICIAL DO SEU PASTEBIN JÁ CONFIGURADO
-        const URL_BLACK_LIST = "https://pastebin.com/raw/rQjKVLKT"; 
+        // O Teu Pastebin Oficial já integrado no proxy CORS de segurança
+        const URL_BLACK_LIST = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://pastebin.com/raw/rQjKVLKT"); 
 
         // LEITURA E INICIALIZAÇÃO
         window.onload = function() {
@@ -359,7 +359,7 @@
             }
         };
 
-        // VALIDADOR COM VERIFICAÇÃO DE BLOQUEIO ONLINE
+        // VALIDADOR COM VERIFICAÇÃO DE BLOQUEIO ONLINE (CORS BYPASS ATIVO)
         async function processarToken(tokenInput, ehAutomatico = false) {
             const feedback = document.getElementById('login-feedback');
 
@@ -387,7 +387,10 @@
                 try {
                     const resposta = await fetch(URL_BLACK_LIST);
                     if (resposta.ok) {
-                        const textoBlacklist = await resposta.text();
+                        const dadosJson = await resposta.json();
+                        // allorigins devolve o conteúdo original dentro da propriedade 'contents'
+                        const textoBlacklist = dadosJson.contents || "";
+                        
                         // Filtra linhas vazias e remove possíveis comentários
                         const blacklist = textoBlacklist.split("\n")
                             .map(linha => linha.trim().toLowerCase())
