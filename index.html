@@ -340,8 +340,8 @@
         let tentativasReconexao = 0;
         const MAX_TENTATIVAS = 3;
 
-        // COLOQUE O SEU LINK RAW DO PASTEBIN AQUI EMBAIXO:
-        const URL_BLACK_LIST = "SUA_URL_DO_PASTEBIN_AQUI"; 
+        // LINK OFICIAL DO SEU PASTEBIN JÁ CONFIGURADO
+        const URL_BLACK_LIST = "https://pastebin.com/raw/rQjKVLKT"; 
 
         // LEITURA E INICIALIZAÇÃO
         window.onload = function() {
@@ -383,23 +383,24 @@
                 const dataExpiraStr = partes[1]; // Ex: 2026-08-15
 
                 // --- SISTEMA DE BLOQUEIO ONLINE ---
-                feedback.innerText = "Verificando lista de bloqueios...";
+                feedback.innerText = "Verificando credenciais...";
                 try {
                     const resposta = await fetch(URL_BLACK_LIST);
                     if (resposta.ok) {
                         const textoBlacklist = await resposta.text();
-                        // Separa a lista por linhas e limpa espaços
-                        const blacklist = textoBlacklist.split("\n").map(e => e.trim().toLowerCase());
+                        // Filtra linhas vazias e remove possíveis comentários
+                        const blacklist = textoBlacklist.split("\n")
+                            .map(linha => linha.trim().toLowerCase())
+                            .filter(linha => linha.length > 0 && !linha.startsWith("#"));
                         
-                        // Se o e-mail do cliente estiver na lista negra...
                         if (blacklist.includes(email)) {
                             feedback.innerText = "Este acesso foi revogado pelo administrador.";
-                            localStorage.removeItem('futx_token'); // Apaga o acesso salvo no dispositivo
-                            return; // Encerra o carregamento aqui
+                            localStorage.removeItem('futx_token'); // Remove do celular se for banido
+                            return;
                         }
                     }
                 } catch (erroApi) {
-                    console.warn("Falha ao consultar blacklist online. Procedendo de forma offline.");
+                    console.warn("Falha ao consultar blacklist online. Procedendo offline.");
                 }
                 // ----------------------------------
 
