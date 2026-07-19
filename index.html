@@ -1,18 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FutX Premium - Canais Ao Vivo</title>
-    
+    <title>FutX - Canais Ao Vivo</title>
+   
     <!-- Google Fonts para um design super moderno -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+   
     <!-- Video.js CSS -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-    
+   
     <style>
         :root {
             --bg-principal: #09090b;
@@ -44,66 +45,6 @@
             min-height: 100vh;
             padding: 20px 15px 40px 15px;
             overflow-x: hidden;
-        }
-
-        /* --- TELA DE ACESSO (PREMIUM & ELEGANTE) --- */
-        #login-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #111118 0%, #050508 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .login-box {
-            background: rgba(20, 20, 27, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 45px 35px;
-            border-radius: 24px;
-            border: 1px solid var(--borda-hover);
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px var(--cor-primaria-glowing);
-            transform: translateY(0);
-            transition: all 0.3s ease;
-        }
-
-        .login-box .logo-icon {
-            width: 70px;
-            height: 70px;
-            fill: var(--cor-primaria);
-            filter: drop-shadow(0 0 15px var(--cor-primaria-glowing));
-            margin-bottom: 20px;
-        }
-
-        .login-box h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
-        }
-
-        .loader {
-            width: 32px;
-            height: 32px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--cor-primaria);
-            display: inline-block;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
 
         /* --- HEADER / LOGO PRINCIPAL --- */
@@ -224,11 +165,11 @@
             justify-content: flex-start;
             overflow-x: auto;
             padding-bottom: 10px;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
 
         .filter-container::-webkit-scrollbar {
-            display: none; /* Safari e Chrome */
+            display: none;
         }
 
         .filter-btn {
@@ -280,7 +221,6 @@
             gap: 12px;
         }
 
-        /* NOVA BOLINHA BRANCA ANIMADA PREMIUM */
         .live-dot {
             width: 10px;
             height: 10px;
@@ -291,18 +231,9 @@
         }
 
         @keyframes pulse-dot {
-            0% { 
-                transform: scale(0.9); 
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); 
-            }
-            70% { 
-                transform: scale(1.1); 
-                box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); 
-            }
-            100% { 
-                transform: scale(0.9); 
-                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); 
-            }
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
         }
 
         .now-playing-title {
@@ -326,7 +257,6 @@
             max-width: 900px;
         }
 
-        /* Card do Canal */
         .channel-card {
             background-color: var(--bg-card);
             border: 1px solid var(--borda);
@@ -361,9 +291,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .channel-card:hover::before {
-            transform: scaleX(1);
-        }
+        .channel-card:hover::before { transform: scaleX(1); }
 
         .channel-card.active {
             background: linear-gradient(135deg, rgba(20, 20, 27, 0.9) 0%, rgba(0, 255, 136, 0.05) 100%);
@@ -371,11 +299,8 @@
             box-shadow: 0 8px 25px rgba(0, 255, 136, 0.1);
         }
 
-        .channel-card.active::before {
-            transform: scaleX(1);
-        }
+        .channel-card.active::before { transform: scaleX(1); }
 
-        /* Badge de Qualidade (4K, FHD) */
         .badge {
             position: absolute;
             top: 10px;
@@ -406,9 +331,7 @@
             transition: transform 0.3s ease;
         }
 
-        .channel-card:hover .channel-logo {
-            transform: scale(1.08);
-        }
+        .channel-card:hover .channel-logo { transform: scale(1.08); }
 
         .channel-name {
             font-size: 0.9rem;
@@ -417,41 +340,15 @@
             line-height: 1.2;
         }
 
-        /* Responsividade para Celulares Pequenos */
         @media (max-width: 480px) {
-            .channels-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-            .channel-card {
-                padding: 15px 10px;
-            }
-            .channel-logo {
-                width: 60px;
-                height: 60px;
-            }
-            .logo-text {
-                font-size: 1.9rem;
-            }
+            .channels-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .channel-card { padding: 15px 10px; }
+            .channel-logo { width: 60px; height: 60px; }
+            .logo-text { font-size: 1.9rem; }
         }
     </style>
 </head>
 <body>
-
-    <!-- Tela de Bloqueio Elegante -->
-    <div id="login-screen">
-        <div class="login-box">
-            <svg class="logo-icon" viewBox="0 0 24 24">
-                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C13.1,4 14.15,4.28 15.1,4.77L13.84,8.64L9.42,8.12L8.24,4.55C9.4,4.2,10.67,4 12,4M6.21,6C6.73,6.5 7.15,7.12 7.42,7.81L8.33,10.59L5.05,12.72L3.1,10.03C3.78,8.4 4.87,7 6.21,6M17.79,6C19.13,7 20.22,8.4 20.9,10.03L18.95,12.72L15.67,10.59L16.58,7.81C16.85,7.12 17.27,6.5 17.79,6M12,10.74L14.73,12.5L13.68,15.71H10.32L9.27,12.5L12,10.74M4.7,14.06L7.81,12.04L8.86,15.25L6.64,18.3C5.55,17.2 4.84,15.71 4.7,14.06M19.3,14.06C19.16,15.71 18.45,17.2 17.36,18.3L15.14,15.25L16.19,12.04L19.3,14.06M12,18C11.1,18 10.22,17.86 9.4,17.6L10.65,19.43C11.1,19.47 11.55,19.5 12,19.5C12.45,19.5 12.9,19.47 13.35,19.43L14.6,17.6C13.78,17.86 12.9,18 12,18Z"/>
-            </svg>
-            <h2>FutX Premium</h2>
-            <p style="font-size: 0.9rem; color: var(--cor-texto-secundario); margin-bottom: 25px;">Sua entrada para o melhor do esporte</p>
-            <div class="loader"></div>
-            <p id="login-feedback" style="font-size: 0.95rem; color: var(--cor-primaria); font-weight: 600;">
-                Sincronizando canais e acessos...
-            </p>
-        </div>
-    </div>
 
     <!-- Header / Logo Principal -->
     <div class="logo-container">
@@ -494,9 +391,11 @@
         <button class="filter-btn" onclick="filterChannels('espn', this)">ESPN</button>
         <button class="filter-btn" onclick="filterChannels('tnt', this)">TNT Sports</button>
         <button class="filter-btn" onclick="filterChannels('prime', this)">Prime Video</button>
+        <button class="filter-btn" onclick="filterChannels('paramount', this)">Paramount+</button>
+        <button class="filter-btn" onclick="filterChannels('disney', this)">Disney+</button>
     </div>
 
-    <!-- Grade de Canais Elegante -->
+    <!-- Grade de Canais -->
     <div class="channels-grid">
         <!-- PREMIERE -->
         <div class="channel-card active" data-category="premiere" onclick="changeChannel('premiere_clubes', 'Premiere Clubes 4K', this)">
@@ -614,12 +513,111 @@
         </div>
         <div class="channel-card" data-category="prime" onclick="changeChannel('prime_6', 'Amazon Prime 06', this)">
             <span class="badge">FHD</span>
-            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="AMAZON PRIME VIDEO 06">
+            <img class="channel-logo" src="https://megafilmeshd.one/wp-content/plugins/Xui-PFlix-Prod/img-proxy/index.php?img=2a1cb6b08cca3344862bd8b9c60f278f&size=w220" alt="Amazon Prime 06">
             <div class="channel-name">Amazon Prime 06</div>
+        </div>
+
+        <!-- PARAMOUNT+ -->
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_1', 'Paramount + 1', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 1">
+            <div class="channel-name">Paramount + 1</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_2', 'Paramount + 2', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 2">
+            <div class="channel-name">Paramount + 2</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_3', 'Paramount + 3', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 3">
+            <div class="channel-name">Paramount + 3</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_4', 'Paramount + 4', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 4">
+            <div class="channel-name">Paramount + 4</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_5', 'Paramount + 5', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 5">
+            <div class="channel-name">Paramount + 5</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_6', 'Paramount + 6', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 6">
+            <div class="channel-name">Paramount + 6</div>
+        </div>
+        <div class="channel-card" data-category="paramount" onclick="changeChannel('paramount_7', 'Paramount + 7', this)">
+            <span class="badge">Live</span>
+            <img class="channel-logo" src="https://i.ibb.co/P927kPq/Conmebol-tv.png" alt="Paramount + 7">
+            <div class="channel-name">Paramount + 7</div>
+        </div>
+
+        <!-- DISNEY+ -->
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_1', 'Disney Plus 01 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 01 HD">
+            <div class="channel-name">Disney Plus 01</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_2', 'Disney Plus 02 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 02 HD">
+            <div class="channel-name">Disney Plus 02</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_3', 'Disney Plus 03 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 03 HD">
+            <div class="channel-name">Disney Plus 03</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_4', 'Disney Plus 04 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 04 HD">
+            <div class="channel-name">Disney Plus 04</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_5', 'Disney Plus 05 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 05 HD">
+            <div class="channel-name">Disney Plus 05</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_6', 'Disney Plus 06 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 06 HD">
+            <div class="channel-name">Disney Plus 06</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_7', 'Disney Plus 07 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 07 HD">
+            <div class="channel-name">Disney Plus 07</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_8', 'Disney Plus 08 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 08 HD">
+            <div class="channel-name">Disney Plus 08</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_9', 'Disney Plus 09 FHD', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 09 FHD">
+            <div class="channel-name">Disney Plus 09</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_12', 'Disney Plus 12 FHD', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 12 FHD">
+            <div class="channel-name">Disney Plus 12</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_13', 'Disney Plus 13 FHD', this)">
+            <span class="badge">FHD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 13 FHD">
+            <div class="channel-name">Disney Plus 13</div>
+        </div>
+        <div class="channel-card" data-category="disney" onclick="changeChannel('disney_14', 'Disney Plus 14 HD', this)">
+            <span class="badge">HD</span>
+            <img class="channel-logo" src="https://od.lk/s/NzdfNTg1NjQwMzFf/disneyplus.png" alt="Disney Plus 14 HD">
+            <div class="channel-name">Disney Plus 14</div>
         </div>
     </div>
 
-    <!-- Scripts do VideoJS e Lógica de Validação -->
+    <!-- Scripts do VideoJS e Lógica Interna -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script>
         const CANAIS_DATABASE = {
@@ -629,11 +627,11 @@
             "premiere_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717640.m3u8", backup: "" },
             "premiere_7": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717637.m3u8", backup: "" },
             "premiere_8": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717633.m3u8?jw=1&auto_quality=0", backup: "" },
-            
+           
             "sportv_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717824.m3u8", backup: "" },
             "sportv_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717820.m3u8", backup: "" },
             "sportv_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/7717813.m3u8", backup: "" },
-            
+           
             "espn_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717311.m3u8?jw=1&auto_quality=0", backup: "" },
             "espn_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717308.m3u8?jw=1&auto_quality=0", backup: "" },
             "espn_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717305.m3u8?jw=1&auto_quality=0", backup: "" },
@@ -648,118 +646,46 @@
             "prime_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717665.m3u8?jw=1&auto_quality=0", backup: "" },
             "prime_4": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717644.m3u8?jw=1&auto_quality=0", backup: "" },
             "prime_5": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7717663.m3u8?jw=1&auto_quality=0", backup: "" },
-            "prime_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7718146.m3u8?jw=1&auto_quality=0", backup: "" }
+            "prime_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/7718146.m3u8?jw=1&auto_quality=0", backup: "" },
+
+            // NOVOS CANAIS PARAMOUNT
+            "paramount_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539325.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539326.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539327.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_4": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539328.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_5": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539685.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9539686.m3u8?jw=1&auto_quality=0", backup: "" },
+            "paramount_7": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9541591.m3u8?jw=1&auto_quality=0", backup: "" },
+
+            // NOVOS CANAIS DISNEY
+            "disney_1": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568336.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_2": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568337.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_3": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568338.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_4": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568339.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_5": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568340.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_6": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/fallback/9568341.m3u8", backup: "" },
+            "disney_7": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568342.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_8": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568343.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_9": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568344.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_12": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568347.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_13": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568348.m3u8?jw=1&auto_quality=0", backup: "" },
+            "disney_14": { principal: "https://speed.megafilmeshd9.com/speed-3/playlist/9568349.m3u8?jw=1&auto_quality=0", backup: "" }
         };
 
         const player = videojs('live-player');
         const errorScreen = document.getElementById('error-screen');
-        
-        let canalAtualKey = "premiere_clubes"; 
+       
+        let canalAtualKey = "premiere_clubes";
         let usandoBackup = false;
         let tentativasReconexao = 0;
         const MAX_TENTATIVAS = 3;
 
-        // O Seu Pastebin com bypass de CORS
-        const URL_BLACK_LIST = "https://api.allorigins.win/get?url=" + encodeURIComponent("https://pastebin.com/raw/rQjKVLKT"); 
-
-        // LEITURA E INICIALIZAÇÃO
+        // Iniciar carregando o primeiro canal automaticamente
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const tokenNaUrl = urlParams.get('token');
-            const tokenSalvo = localStorage.getItem('futx_token');
-
-            if (tokenNaUrl) {
-                processarToken(tokenNaUrl);
-            } else if (tokenSalvo) {
-                processarToken(tokenSalvo, true);
-            } else {
-                const feedback = document.getElementById('login-feedback');
-                document.querySelector('.loader').style.display = 'none';
-                feedback.style.color = '#ef4444';
-                feedback.innerHTML = 'Acesso Restrito.<br><span style="font-size:0.85rem; color:#a1a1aa; font-weight:normal; display:inline-block; margin-top:10px;">Utilize o link premium exclusivo enviado pelo administrador para assistir.</span>';
-            }
+            recarregarPlayer(CANAIS_DATABASE[canalAtualKey].principal);
         };
 
-        // VALIDADOR COM VERIFICAÇÃO ONLINE
-        async function processarToken(tokenInput, ehAutomatico = false) {
-            const feedback = document.getElementById('login-feedback');
-
-            if (!tokenInput || !tokenInput.startsWith("FTX-")) {
-                document.querySelector('.loader').style.display = 'none';
-                feedback.style.color = '#ef4444';
-                feedback.innerText = "Link de acesso inválido.";
-                return;
-            }
-
-            try {
-                let hash = tokenInput.replace("FTX-", "").trim();
-                hash = decodeURIComponent(hash); 
-                const decodificado = atob(hash); 
-                
-                const partes = decodificado.split("|");
-                if (partes.length < 2) {
-                    document.querySelector('.loader').style.display = 'none';
-                    feedback.style.color = '#ef4444';
-                    feedback.innerText = "Formato de link inválido.";
-                    return;
-                }
-
-                const email = partes[0].trim().toLowerCase();
-                const dataExpiraStr = partes[1];
-
-                // --- CONSULTA DA BLACKLIST ---
-                feedback.innerText = "Validando credenciais de segurança...";
-                try {
-                    const resposta = await fetch(URL_BLACK_LIST);
-                    if (resposta.ok) {
-                        const dadosJson = await resposta.json();
-                        const textoBlacklist = dadosJson.contents || "";
-                        
-                        const blacklist = textoBlacklist.split("\n")
-                            .map(linha => linha.trim().toLowerCase())
-                            .filter(linha => linha.length > 0 && !linha.startsWith("#"));
-                        
-                        if (blacklist.includes(email)) {
-                            document.querySelector('.loader').style.display = 'none';
-                            feedback.style.color = '#ef4444';
-                            feedback.innerText = "Este acesso foi revogado pelo administrador.";
-                            localStorage.removeItem('futx_token');
-                            return;
-                        }
-                    }
-                } catch (erroApi) {
-                    console.warn("Falha ao consultar blacklist online. Procedendo offline.");
-                }
-                // ----------------------------------
-
-                const [ano, mes, dia] = dataExpiraStr.split("-");
-                const expiraEm = new Date(ano, parseInt(mes) - 1, dia, 23, 59, 59, 999);
-                const agora = new Date();
-
-                if (agora <= expiraEm) {
-                    localStorage.setItem('futx_token', tokenInput);
-                    // Sucesso: fecha tela de login suavemente
-                    const loginScreen = document.getElementById('login-screen');
-                    loginScreen.style.opacity = '0';
-                    loginScreen.style.transition = 'opacity 0.4s ease';
-                    setTimeout(() => { loginScreen.style.display = 'none'; }, 400);
-                    
-                    recarregarPlayer(CANAIS_DATABASE[canalAtualKey].principal);
-                } else {
-                    document.querySelector('.loader').style.display = 'none';
-                    feedback.style.color = '#ef4444';
-                    feedback.innerText = "Este link premium expirou.";
-                    localStorage.removeItem('futx_token');
-                }
-            } catch (e) {
-                console.error("Erro na validação: ", e);
-                document.querySelector('.loader').style.display = 'none';
-                feedback.style.color = '#ef4444';
-                feedback.innerText = "Link de acesso corrompido ou mal formatado.";
-            }
-        }
-
-        // SISTEMA DE PLAYER
+        // Sistema de Fallback e Erros do Player
         player.on('error', function() {
             const canal = CANAIS_DATABASE[canalAtualKey];
             if (!usandoBackup && canal && canal.backup) {
@@ -771,7 +697,7 @@
                 setTimeout(() => {
                     const urlAtiva = usandoBackup ? canal.backup : canal.principal;
                     recarregarPlayer(urlAtiva);
-                }, 3000); 
+                }, 3000);
             } else {
                 errorScreen.style.display = 'flex';
             }
@@ -792,10 +718,8 @@
             tentativasReconexao = 0;
             recarregarPlayer(CANAIS_DATABASE[canalKey].principal);
 
-            // Atualiza barra de exibição do canal atual
             document.getElementById('now-playing-name').innerText = canalNomeCompleto;
 
-            // Altera visualmente os cards ativos
             document.querySelectorAll('.channel-card').forEach(card => card.classList.remove('active'));
             cardElement.classList.add('active');
         }
